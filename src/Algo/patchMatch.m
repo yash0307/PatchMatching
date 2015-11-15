@@ -33,6 +33,8 @@ Mapping(:,:,2) = randi([1 im_B_size(2)], im_A_size(1), im_A_size(2));
 A = padarray(im_A, [floor(window_size/2) floor(window_size/2)], 0, 'both');
 B = padarray(im_B, [floor(window_size/2) floor(window_size/2)], 0, 'both');
 
+%% Compute Evaluator for created mapping
+
 % @yash0307, compute eval corresponding to initialization.
 Eval = zeros(im_A_size(1), im_A_size(2));
 for i=1:im_A_size(1)
@@ -57,4 +59,4 @@ for i=1:im_A_size(1)
 
     end
 end
-%% Compute Evaluator for created mapping
+
