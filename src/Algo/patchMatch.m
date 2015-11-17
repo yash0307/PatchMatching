@@ -2,11 +2,14 @@
 
 % Window size
 window_size = 5;
+num_iterations = 10;
 % Take input image 1 and 2.
 % 2 will be same as 1, for 
 % object removal.
 im_A = double(imread('a.png'));
 im_B = double(imread('a.png'));
+%initial radius of random search to be decreased exponentialy
+Radius = min(size(im_A,1),size(im_A,2))/2
 
 % Initialize Mapping matrix.
 % Corresponding Evaluator matrix.
@@ -33,7 +36,7 @@ Mapping(:,:,2) = randi([1 im_B_size(2)], im_A_size(1), im_A_size(2));
 A = padarray(im_A, [floor(window_size/2) floor(window_size/2)], 0, 'both');
 B = padarray(im_B, [floor(window_size/2) floor(window_size/2)], 0, 'both');
 
-%% Compute Evaluator for created mapping
+%% Compute Evaluator for created initlialized mapping
 
 % @yash0307, compute eval corresponding to initialization.
 Eval = zeros(im_A_size(1), im_A_size(2));
@@ -60,3 +63,43 @@ for i=1:im_A_size(1)
     end
 end
 
+%random_search = @(,Radius) ;
+%% Iteration Mapping and updating Eval.
+for iter=1:num_iterations
+    Radius = Radius * exp(-i)
+    % @yash0307, for odd i
+    % move top-left to bottom-right
+    % Check for (top,left and current pixels) and update according to the
+    % least found value
+    
+    % CASE-1 : iter is even.
+    if mod(iter,2)==0
+        for i=1:im_A_size(1)
+            for j=1:im_A_size(2)
+                %propagation and updation
+                if j>1 
+                    top = Eval[i,j-1];
+                else 
+                    top = Inf;
+                end
+                if i>1
+                    left = Eval[i-1,j];
+                else
+                    left = Inf;
+                end
+                current  = Eval[i,j];
+                [Eval[i,j],min_idx] = min(current,left,top)
+                if min_idx ==2
+                    Mapping[i,j] = Mapping[i-1,j];
+                elseif min_idx==3
+                    Mapping[i,j] = Mapping[i,j-1];
+                else
+                    Mapping[i,j] = Mapping[i,j];
+                    'Mapping[i,j] remains unchanged';
+                end
+                %search and update
+                temp_eval = random_search(Mapping[i,j],Radius)
+            end
+        end
+    end
+end
