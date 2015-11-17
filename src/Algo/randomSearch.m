@@ -33,13 +33,6 @@ function [x y Updated_mapping Updated_Eval] = randomSearch(Mapping, Eval, image_
         % sq_2 = second_quadrant.
         % sq_3 = third_quadrant.
         % sq_4 = fourth_quadrant.
-        
-        % finding sq_1
-        sq_1 = [0 0]
-        if(mapped_indexes(1) + radius < image_size(1))
-            sq_1(1) = mapped_indexes(1) + radius;
-        else
-            
-        end
+       
     end
 end
