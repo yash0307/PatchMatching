@@ -2,7 +2,7 @@
 
 % Window size
 window_size = 5;
-num_iterations = 10;
+num_iterations = 5;
 % Take input image 1 and 2.
 % 2 will be same as 1, for 
 % object removal.
@@ -77,6 +77,7 @@ for iter=1:num_iterations
         % Take the minimum, and apply random search for
         % corresponding matching.
         % Note : Need to check existence of top, left as per situation.
+
         for i=1:im_A_size(1)
             for j=1:im_A_size(2)
                 
@@ -119,8 +120,40 @@ for iter=1:num_iterations
         % Take the minimum, and apply random search for
         % corresponding matching.
         % Note : Need to check existence of bottom, right as per situation.
-        for i=im_A_size(1):1
-            for j=im_A_size(1):1
+
+        for i=im_A_size(1):-1:1
+            for j=im_A_size(1):-1:1
+                
+                % STEP - 1
+                % @yash0307 : First evaluate bottom, right, current.
+                current_val = Eval(i,j);
+                current_index = [i , j];
+                % @yash0307 : if i < im_A_size(1) bottom exists. Else take bottom as
+                % infinity.
+                % Note : Use this carefully.
+                if i < im_A_size(1)
+                    bottom_val = Eval(i+1,j);
+                    bottom_index = [i+1 , j];
+                else
+                    bottom_val = Inf;
+                    bottom_index = [Inf, Inf];
+                end
+                % @yash0307 : if j < im_A_size(2) right exists. Else take right as
+                % infinity.
+                % Note : Use this carefully.
+                if j < im_A_size(2)
+                    right_val = Eval(i,j+1);
+                    right_index = [i , j+1];
+                else
+                    right_val = Inf;
+                    right_index = [Inf Inf];
+                end
+                
+                % STEP - 2
+                % @yash0307 : Compare top, left and current values.
+                % Choose minimum among them. And apply random search for
+                % it.
+                % NOTE : don't forget to update Mapping Matrix accordingly.
                 
             end
         end
