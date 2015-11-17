@@ -3,6 +3,8 @@
 % Window size
 window_size = 5;
 num_iterations = 5;
+rs_max_window = 25;
+rs_reduction_factor = 0.5;
 % Take input image 1 and 2.
 % 2 will be same as 1, for 
 % object removal.
