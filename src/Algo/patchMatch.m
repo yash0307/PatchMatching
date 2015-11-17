@@ -1,5 +1,16 @@
 %% @yash0307, @halwai
 
+
+% @yash0307 : Details for random search function
+% This file contains random search function.
+% Input parameters.
+% -> Mapping Matrix.
+% -> Eval Matrix.
+% -> Underconsideration indexes.
+% -> maximum range of squares.
+% -> factor of reduction.
+%function [x y Updated_mapping Updated_Eval] = randomSearch(Mapping, Eval, image_indexes, mapped_indexes,rs_max_window, rs_reduction_factor, image_size)
+
 % Window size
 window_size = 5;
 num_iterations = 5;
