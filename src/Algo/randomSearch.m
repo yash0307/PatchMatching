@@ -20,7 +20,18 @@ function [x y Updated_mapping Updated_Eval] = randomSearch(Mapping, Eval, image_
         
         % @yash0307 : for each iteration generate compare across the new
         % patches accordingly.
-        radius = rs_max_window/fun_iter;
+        r = rs_max_window/fun_iter;
+        
+        x = mapped_indexes(1);
+        y = mapped_indexes(2);
+        
+        max_x = image_size(1);
+        max_y = image_size(2);
+        
+        sq_1 = [0 0];
+        sq_2 = [0 0];
+        sq_3 = [0 0];
+        sq_4 = [0 0];
         
         % @yash0307 : define four sides of the square.
         % Namely sq_top, sq_bottom, sq_left, sq_right.
@@ -33,6 +44,24 @@ function [x y Updated_mapping Updated_Eval] = randomSearch(Mapping, Eval, image_
         % sq_2 = second_quadrant.
         % sq_3 = third_quadrant.
         % sq_4 = fourth_quadrant.
+        
+        % Compute sq_1
+        if((x+r < max_x)&&(y+r < max_y))
+            sq_1(1) = x+r;
+            sq_1(2) = y+r;
+        elseif((x+r > max_x)&&(y+r < max_y))
+            sq_1(1) = max_x;
+            sq_1(2) = y+r;
+        elseif((x+r < max_x)&&(y+r > max_y))
+            sq_1(1) = x+r;
+            sq_1(2) = 1;
+        elseif((x+r > max_x)&&(y+r > max_y))
+            sq_1(1) = max_x;
+            sq_1(2) = 1;
+        end
        
+        % Compute sq_2
+        % Compute sq_3
+        % Compute sq_4
     end
 end
