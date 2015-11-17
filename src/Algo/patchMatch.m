@@ -111,7 +111,17 @@ for iter=1:num_iterations
                 % Choose minimum among them. And apply random search for
                 % it.
                 % NOTE : don't forget to update Mapping Matrix accordingly.
-                
+                % Make a compate matrix as [left top current]
+                % 1-> left, 2-> top, current->3
+                compare_matrix = [left_val top_val current_val];
+                min_index = find(compare_matrix==min(compare_matrix));
+                if min_index==1
+                    % Do random searh for left as index.
+                elseif min_index==2
+                    % Do random search for top as index.
+                elseif min_index==3
+                    % Do random search for current as index.
+                end
                 
             end
         end
@@ -154,6 +164,18 @@ for iter=1:num_iterations
                 % Choose minimum among them. And apply random search for
                 % it.
                 % NOTE : don't forget to update Mapping Matrix accordingly.
+                % Make a compate matrix as [right bottom current]
+                % 1-> right, 2-> bottom, current->3
+                compare_matrix = [right_val bottom_val current_val];
+                min_index = find(compare_matrix==min(compare_matrix));
+                if min_index==1
+                    % Do random searh for right as index.
+                elseif min_index==2
+                    % Do random search for bottom as index.
+                elseif min_index==3
+                    % Do random search for current as index.
+                end
+
                 
             end
         end
