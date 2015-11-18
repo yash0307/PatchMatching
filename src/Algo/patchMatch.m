@@ -14,8 +14,8 @@
 % Window size
 window_size = 5;
 num_iterations = 5;
-rs_max_window = 25;
-rs_reduction_factor = 0.5;
+rs_max_window = 5;
+rs_reduction_factor = 2;
 % Take input image 1 and 2.
 % 2 will be same as 1, for 
 % object removal.
@@ -78,7 +78,7 @@ end
 
 %% Iteration Mapping and updating Eval.
 for iter=1:num_iterations
-
+    iter
     % @yash0307, for odd i
     % move top-left to bottom-right
     % Check for (top,left and current pixels) and update according to the
@@ -93,6 +93,7 @@ for iter=1:num_iterations
 
         for i=1:im_A_size(1)
             for j=1:im_A_size(2)
+                
                 
                 % STEP - 1
                 % @yash0307 : First evaluate top, left, current.
@@ -127,13 +128,22 @@ for iter=1:num_iterations
                 % Make a compate matrix as [left top current]
                 % 1-> left, 2-> top, current->3
                 compare_matrix = [left_val top_val current_val];
-                min_index = find(compare_matrix==min(compare_matrix));
+                min_index = int8(find(compare_matrix==min(compare_matrix)));
                 if min_index==1
                     % Do random searh for left as index.
+                    [x_ret y_ret Mapping Eval] = randomSearch(Mapping, Eval, current_index, ...
+                        [Mapping(left_index(1),left_index(2),1), Mapping(left_index(1),left_index(2),2)],...
+                        rs_max_window, rs_reduction_factor, im_B_size, B);
                 elseif min_index==2
                     % Do random search for top as index.
+                    [x_ret y_ret Mapping Eval] = randomSearch(Mapping, Eval, current_index, ...
+                        [Mapping(right_index(1),right_index(2),1), Mapping(right_index(1),right_index(2),2)],...
+                        rs_max_window, rs_reduction_factor, im_B_size, B);
                 elseif min_index==3
                     % Do random search for current as index.
+                    [x_ret y_ret Mapping Eval] = randomSearch(Mapping, Eval, current_index, ...
+                        [Mapping(current_index(1),current_index(2),1), Mapping(current_index(1),current_index(2),2)],...
+                        rs_max_window, rs_reduction_factor, im_B_size, B);
                 end
                 
             end
@@ -180,13 +190,22 @@ for iter=1:num_iterations
                 % Make a compate matrix as [right bottom current]
                 % 1-> right, 2-> bottom, current->3
                 compare_matrix = [right_val bottom_val current_val];
-                min_index = find(compare_matrix==min(compare_matrix));
+                min_index = int8(find(compare_matrix==min(compare_matrix)));
                 if min_index==1
                     % Do random searh for right as index.
+                    [x_ret y_ret Mapping Eval] = randomSearch(Mapping, Eval, current_index, ...
+                        [Mapping(right_index(1),right_index(2),1), Mapping(right_index(1),right_index(2),2)],...
+                        rs_max_window, rs_reduction_factor, im_B_size, B);
                 elseif min_index==2
                     % Do random search for bottom as index.
+                    [x_ret y_ret Mapping Eval] = randomSearch(Mapping, Eval, current_index, ...
+                        [Mapping(bottom_index(1),bottom_index(2),1), Mapping(bottom_index(1),bottom_index(2),2)],...
+                        rs_max_window, rs_reduction_factor, im_B_size, B);
                 elseif min_index==3
                     % Do random search for current as index.
+                    [x_ret y_ret Mapping Eval] = randomSearch(Mapping, Eval, current_index, ...
+                        [Mapping(current_index(1),current_index(2),1), Mapping(current_index(1),current_index(2),2)],...
+                        rs_max_window, rs_reduction_factor, im_B_size, B);
                 end
 
                 
