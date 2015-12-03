@@ -9,8 +9,8 @@
 % -> factor of reduction.
 function [x_ret y_ret Updated_mapping Updated_Eval] = randomSearch(Mapping, Eval, image_indexes, mapped_indexes,rs_max_window, rs_reduction_factor, image_size, image)
     
-    image_indexes
-
+    %image_indexes
+    
     % Will have to change log accordingly. So 2 for now.
     rs_reduction_factor = 2;
     

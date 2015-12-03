@@ -14,15 +14,15 @@
 % Window size
 window_size = 5;
 num_iterations = 5;
-rs_max_window = 5;
+rs_max_window = 50;
 rs_reduction_factor = 2;
 % Take input image 1 and 2.
 % 2 will be same as 1, for 
 % object removal.
-im_A = double(imread('a.png'));
-im_B = double(imread('a.png'));
+im_A = double(imresize(imread('inp.jpg'),0.25));
+im_B = double(imresize(imread('inp.jpg'),0.25));
 
-
+%rs_max_window = size(im_A, 1);
 % Initialize Mapping matrix.
 % Corresponding Evaluator matrix.
 % @yash0307, Note : Update evaluator each time,
@@ -39,9 +39,21 @@ im_B_size = size(im_B);
 
 % @yash0307, Generate random mapping.
 Mapping = zeros(im_A_size(1), im_A_size(2), 2);
+Mapping_in = Mapping;
 Mapping(:,:,1) = randi([1 im_B_size(1)], im_A_size(1), im_A_size(2));
 Mapping(:,:,2) = randi([1 im_B_size(2)], im_A_size(1), im_A_size(2));
 
+% Generate image corresponding to random initiliazation.
+new_image = uint8(zeros(size(im_A)));
+    for i=1:size(Mapping,1)
+        for j=1:size(Mapping,2)
+           mapped_index_x = Mapping(i,j,1);
+           mapped_index_y = Mapping(i,j,2);
+           new_image(i,j,:) = uint8(im_B(mapped_index_x, mapped_index_y,:));
+        end
+    end
+    imwrite(new_image,strcat('output','-',int2str(0),'.jpg'))
+ 
 % Pad both the images by 2 pixels.
 % Window size = 5;
 % After padding we operate on im_A and im_B.
@@ -75,10 +87,12 @@ for i=1:im_A_size(1)
     end
 end
 
+Eval_in = Eval;
 
 %% Iteration Mapping and updating Eval.
 for iter=1:num_iterations
     iter
+    rs_max_window
     % @yash0307, for odd i
     % move top-left to bottom-right
     % Check for (top,left and current pixels) and update according to the
@@ -155,7 +169,7 @@ for iter=1:num_iterations
         % Note : Need to check existence of bottom, right as per situation.
 
         for i=im_A_size(1):-1:1
-            for j=im_A_size(1):-1:1
+            for j=im_A_size(2):-1:1
                 
                 % STEP - 1
                 % @yash0307 : First evaluate bottom, right, current.
@@ -207,10 +221,19 @@ for iter=1:num_iterations
                         [Mapping(current_index(1),current_index(2),1), Mapping(current_index(1),current_index(2),2)],...
                         rs_max_window, rs_reduction_factor, im_B_size, B);
                 end
-
-                
             end
         end
         
     end
+    
+    % Regenerate image over here.
+    new_image = uint8(zeros(size(im_A)));
+    for i=1:size(Mapping,1)
+        for j=1:size(Mapping,2)
+           mapped_index_x = Mapping(i,j,1);
+           mapped_index_y = Mapping(i,j,2);
+           new_image(i,j,:) = uint8(im_B(mapped_index_x, mapped_index_y,:));
+        end
+    end
+    imwrite(new_image,strcat('output','-',int2str(iter),'.jpg'))
 end
