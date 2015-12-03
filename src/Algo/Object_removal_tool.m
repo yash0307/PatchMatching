@@ -12,15 +12,29 @@
 %function [x y Updated_mapping Updated_Eval] = randomSearch(Mapping, Eval, image_indexes, mapped_indexes,rs_max_window, rs_reduction_factor, image_size)
 
 % Window size
-window_size = 25;
+window_size = 5;
 num_iterations = 5;
-rs_max_window = 5;
+rs_max_window = 500;
 rs_reduction_factor = 2;
 % Take input image 1 and 2.
 % 2 will be same as 1, for 
 % object removal.
-im_A = double(imresize(imread('inp.jpg'),0.25));
-im_B = double(imresize(imread('inp.jpg'),0.25));
+im_A = double(imread('test.jpg'));
+%im_A = imresize(im_A);
+im_B = double(imread('test.jpg'));
+%im_B = imresize(im_B);
+
+imshow(uint8(im_A))
+coords_rem = ginput(2);
+
+im_A = im_A(coords_rem(1,2):coords_rem(2,2), coords_rem(1,1):coords_rem(2,1),:);
+im_B(coords_rem(1,2):coords_rem(2,2), coords_rem(1,1):coords_rem(2,1),:)=255;
+removal_object_size = size(im_B);
+%im_A = imresize(im_A, [size(im_B,1) size(im_B,2)]);
+
+%temp = im_A;
+%im_A = im_B;
+%im_B = temp;
 
 %rs_max_window = size(im_A, 1);
 % Initialize Mapping matrix.
@@ -237,3 +251,7 @@ for iter=1:num_iterations
     end
     imwrite(new_image,strcat('output','-',int2str(iter),'.jpg'))
 end
+xx= (coords_rem(2,2)+1)-coords_rem(1,2);
+yy = (coords_rem(2,1)+1)-coords_rem(1,1);
+new_image = imresize(new_image, [xx yy]);
+im_B(coords_rem(1,2):coords_rem(2,2), coords_rem(1,1):coords_rem(2,1),:) = new_image;

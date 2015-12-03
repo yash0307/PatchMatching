@@ -8,8 +8,10 @@
 % -> maximum range of squares.
 % -> factor of reduction.
 function [x_ret y_ret Updated_mapping Updated_Eval] = randomSearch(Mapping, Eval, image_indexes, mapped_indexes,rs_max_window, rs_reduction_factor, image_size, image)
-    
     %image_indexes
+    %Random max search thing.
+    %a = randi([5 10], 1,1);
+    %rs_max_window = double(rs_max_window*(a/10));
     
     % Will have to change log accordingly. So 2 for now.
     rs_reduction_factor = 2;
@@ -26,7 +28,7 @@ function [x_ret y_ret Updated_mapping Updated_Eval] = randomSearch(Mapping, Eval
         % Window shall not exceed indexes.
         
         
-        r = int16(rs_max_window/fun_iter - 2);
+        r = int16(rs_max_window/fun_iter);
         
         w = 2; % Window size ka half.
         
